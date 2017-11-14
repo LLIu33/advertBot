@@ -17,8 +17,12 @@ class SearchCommand extends UserCommand
         $message = $this->getMessage();
         $chat_id = $message->getChat()->getId();
         $text    = trim($message->getText(true));
+        $data = [
+            'chat_id' => $chat_id
+        ];
         if ($text === '') {
-            $text = 'Command usage: ' . $this->getUsage();
+            $data['text'] = "Command usage: " . $this->getUsage();
+            return Request::sendMessage($data);
         }
 
         $pdo = DB::getPdo();
@@ -27,19 +31,12 @@ class SearchCommand extends UserCommand
         $sql->execute();
         $result = $sql->fetchAll();
 
-        $text    = '/search result:' . PHP_EOL;
-        $data = [
-            'chat_id' => $chat_id,
-            'text'    => $text,
-        ];
+        $data['text'] = "/search result:";
         Request::sendMessage($data);
 
         if($sql->rowCount() == 0) {
-            $emptyData = [
-                'chat_id' => $chat_id,
-                'text'    =>"Sorry, no results were found",
-            ];
-            Request::sendMessage($emptyData);
+            $data['text'] = "Sorry, no results were found";
+            return Request::sendMessage($data);
         }
 
         foreach( $result as $row ) {

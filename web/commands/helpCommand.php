@@ -15,7 +15,9 @@ class HelpCommand extends UserCommand
     {
         $message = $this->getMessage();
         $chat_id = $message->getChat()->getId();
-        $text    = 'List of commands!';
+        $text    =  '/help - information about commands'. PHP_EOL
+                    '/publish - create new advert'. PHP_EOL
+                    '/search <text> - search advert by description';
         $data = [
             'chat_id' => $chat_id,
             'text'    => $text,
