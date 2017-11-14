@@ -23,8 +23,7 @@ class SearchCommand extends UserCommand
 
         $pdo = DB::getPdo();
         $sql = $pdo->prepare("SELECT `description`, `photo_id` FROM `posts` WHERE `description` LIKE :keyword");
-        $keyword = "%".$text."%";
-        $sql->bindValue(':keywords', $keyword);
+        $sql->bindValue(':keyword', "%".$text."%");
         $result = $sql->execute();
 
         $data = [
