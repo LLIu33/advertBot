@@ -18,7 +18,6 @@ class PublishCommand extends UserCommand
     protected $usage = '/publish';
     protected $version = '1.0.0';
     protected $conversation;
-    protected $db = new Db();
     public function execute()
     {
         $message = $this->getMessage();
@@ -87,8 +86,9 @@ class PublishCommand extends UserCommand
                 $this->conversation->stop();
                 $result = Request::sendPhoto($data);
 
-                $description = $this->db->quote($notes['description']);
-                $this->db->query(
+                $db = new Db();
+                $description = $db->quote($notes['description']);
+                $db->query(
                     "INSERT INTO `posts` (`chat_id`,`user_id`,`description`,`photo_id`) 
                      VALUES (" . $chat_id . "," . $user_id . "," . $description . "," . $data['photo'] . ")");
                 break;
