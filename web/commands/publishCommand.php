@@ -87,7 +87,7 @@ class PublishCommand extends UserCommand
 
                 $pdo = DB::getPdo();
                 $sql = $pdo->prepare("INSERT INTO `posts` (`chat_id`,`user_id`,`description`,`photo_id`) 
-                     VALUES(:chat_id, :user_id, :description, :photo_id)"));
+                     VALUES(:chat_id, :user_id, :description, :photo_id)");
                 
                 $sql->execute(array(
                     "chat_id" => $chat_id,
