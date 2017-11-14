@@ -2,6 +2,7 @@
 namespace Longman\TelegramBot\Commands\SystemCommands;
 use Longman\TelegramBot\Commands\SystemCommand;
 use Longman\TelegramBot\Request;
+use Longman\TelegramBot\Entities\Keyboard;
 
 class startCommand extends SystemCommand {
     protected $name = 'start';
@@ -14,9 +15,15 @@ class startCommand extends SystemCommand {
         $message = $this->getMessage();
         $chat_id = $message->getChat()->getId();
         $text    = 'Hi there!' . PHP_EOL . 'Type /help to see all commands!';
+        $keyboard = new Keyboard(
+            ['text' => 'A'],
+            'B',
+            ['C', 'D']
+        );
         $data = [
             'chat_id' => $chat_id,
             'text'    => $text,
+            'reply_markup' => $keyboard
         ];
         return Request::sendMessage($data);
     }
