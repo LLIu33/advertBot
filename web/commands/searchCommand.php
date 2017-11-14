@@ -9,13 +9,16 @@ class SearchCommand extends UserCommand
 
     protected $name = 'search';
     protected $description = 'Search published advert';
-    protected $usage = '/search';
+    protected $usage = '/search <text>';
     protected $version = '1.0.0';
     public function execute()
     {
         $message = $this->getMessage();
         $chat_id = $message->getChat()->getId();
-        $text    = 'Search published advert';
+        $text    = trim($message->getText(true));
+        if ($text === '') {
+            $text = 'Command usage: ' . $this->getUsage();
+        }
         $data = [
             'chat_id' => $chat_id,
             'text'    => $text,

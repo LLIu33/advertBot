@@ -16,6 +16,7 @@ class PublishCommand extends UserCommand
     protected $usage = '/publish';
     protected $version = '1.0.0';
     protected $conversation;
+    protected $db = new Db();
     public function execute()
     {
         $message = $this->getMessage();
@@ -56,7 +57,7 @@ class PublishCommand extends UserCommand
                     $result = Request::sendMessage($data);
                     break;
                 }
-                $notes['name'] = $text;
+                $notes['description'] = $text;
                 $text          = '';
             // no break
             case 1:
@@ -83,6 +84,11 @@ class PublishCommand extends UserCommand
                 $data['caption']      = $out_text;
                 $this->conversation->stop();
                 $result = Request::sendPhoto($data);
+
+                $description = $this->db->quote($notes['description']);
+                $this->db->query(
+                    "INSERT INTO `posts` (`chat_id`,`user_id`,`description`,`photo_id`) 
+                     VALUES (" . $chat_id . "," . $user_id . "," . $description . "," . $data['photo'] . ")");
                 break;
         }
         return $result;
