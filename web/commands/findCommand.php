@@ -4,18 +4,18 @@ use Longman\TelegramBot\Commands\Command;
 use Longman\TelegramBot\Commands\UserCommand;
 use Longman\TelegramBot\Request;
 
-class FindCommand extends UserCommand
+class SearchCommand extends UserCommand
 {
 
-    protected $name = 'find';
-    protected $description = 'Find published advert';
-    protected $usage = '/find';
+    protected $name = 'search';
+    protected $description = 'Search published advert';
+    protected $usage = '/search';
     protected $version = '1.0.0';
     public function execute()
     {
         $message = $this->getMessage();
         $chat_id = $message->getChat()->getId();
-        $text    = 'Find published advert';
+        $text    = 'Search published advert';
         $data = [
             'chat_id' => $chat_id,
             'text'    => $text,
