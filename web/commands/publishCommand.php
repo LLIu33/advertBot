@@ -82,8 +82,8 @@ class PublishCommand extends UserCommand
                     "description" => $notes['description'],
                     "photo_id" => $notes['photo_id']
                 );
-                $result = $sql->execute($values);
-                
+                $sql->execute($values);
+
                 $this->conversation->update();
                 $out_text = '/publish result:' . PHP_EOL;
                 unset($notes['state']);
@@ -93,8 +93,8 @@ class PublishCommand extends UserCommand
                 $data['photo']        = $notes['photo_id'];
                 $data['reply_markup'] = Keyboard::remove(['selective' => true]);
                 $data['caption']      = $out_text;
-                Request::sendPhoto($data);
                 $this->conversation->stop();
+                $result = Request::sendPhoto($data);
                 break;
         }
         return $result;

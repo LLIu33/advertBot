@@ -3,6 +3,7 @@ namespace Longman\TelegramBot\Commands\UserCommands;
 use Longman\TelegramBot\Commands\Command;
 use Longman\TelegramBot\Commands\UserCommand;
 use Longman\TelegramBot\Request;
+use Longman\TelegramBot\DB;
 
 class SearchCommand extends UserCommand
 {
@@ -19,9 +20,16 @@ class SearchCommand extends UserCommand
         if ($text === '') {
             $text = 'Command usage: ' . $this->getUsage();
         }
+
+        $pdo = DB::getPdo();
+        $sql = $pdo->prepare("SELECT `description`, `photo_id` FROM `posts` WHERE `description` LIKE :keyword");
+        $keyword = "%".$text."%";
+        $query->bindValue(':keywords', $keyword);
+        $result = $sql->execute();
+
         $data = [
             'chat_id' => $chat_id,
-            'text'    => $text,
+            'text'    => $result,
         ];
         return Request::sendMessage($data);
     }
