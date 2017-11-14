@@ -1,5 +1,6 @@
 {
   "require" : {
+    "php": "^7.1",
     "longman/telegram-bot": "^0.50.0",
     "vlucas/phpdotenv": "^2.4",
     "cloudinary/cloudinary_php": "^1.8"
