@@ -74,7 +74,7 @@ class PublishCommand extends UserCommand
             // no break
             case 2:
                 $this->conversation->update();
-                $out_text = '/Publish result:' . PHP_EOL;
+                $out_text = '/publish result:' . PHP_EOL;
                 unset($notes['state']);
                 foreach ($notes as $k => $v) {
                     $out_text .= PHP_EOL . ucfirst($k) . ': ' . $v;
@@ -83,13 +83,13 @@ class PublishCommand extends UserCommand
                 $data['reply_markup'] = Keyboard::remove(['selective' => true]);
                 $data['caption']      = $out_text;
                 $this->conversation->stop();
-                $result = Request::sendPhoto($data);
+                Request::sendPhoto($data);
 
                 $pdo = DB::getPdo();
                 $sql = $pdo->prepare("INSERT INTO `posts` (`chat_id`,`user_id`,`description`,`photo_id`) 
                      VALUES(:chat_id, :user_id, :description, :photo_id)");
                 
-                $sql->execute(array(
+                $result = $sql->execute(array(
                     "chat_id" => $chat_id,
                     "user_id" => $user_id,
                     "description" => $notes['description'],
