@@ -73,6 +73,17 @@ class PublishCommand extends UserCommand
                 $notes['photo_id'] = $photo->getFileId();
             // no break
             case 2:
+                $pdo = DB::getPdo();
+                $sql = $pdo->prepare("INSERT INTO `posts` (`chat_id`,`user_id`,`description`,`photo_id`) 
+                     VALUES(:chat_id, :user_id, :description, :photo_id)");
+                $values = array(
+                    "chat_id" => $chat_id,
+                    "user_id" => $user_id,
+                    "description" => $notes['description'],
+                    "photo_id" => $notes['photo_id']
+                );
+                $result = $sql->execute($values);
+                
                 $this->conversation->update();
                 $out_text = '/publish result:' . PHP_EOL;
                 unset($notes['state']);
@@ -82,19 +93,8 @@ class PublishCommand extends UserCommand
                 $data['photo']        = $notes['photo_id'];
                 $data['reply_markup'] = Keyboard::remove(['selective' => true]);
                 $data['caption']      = $out_text;
-                $this->conversation->stop();
                 Request::sendPhoto($data);
-
-                $pdo = DB::getPdo();
-                $sql = $pdo->prepare("INSERT INTO `posts` (`chat_id`,`user_id`,`description`,`photo_id`) 
-                     VALUES(:chat_id, :user_id, :description, :photo_id)");
-                
-                $result = $sql->execute(array(
-                    "chat_id" => $chat_id,
-                    "user_id" => $user_id,
-                    "description" => $notes['description'],
-                    "photo_id" => $data['photo']
-                ));
+                $this->conversation->stop();
                 break;
         }
         return $result;
