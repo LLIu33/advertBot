@@ -9,7 +9,7 @@ if(getenv('APP_ENV') === 'development') {
 
 $API_KEY = getenv("BOT_TOKEN");
 $USER_ID = getenv("TELEGRAM_ID");
-$BOT_NAME = "@postAdvertBot";
+$BOT_NAME = getenv("BOT_NAME");
 
 $url = parse_url(getenv("DATABASE_URL"));
 
