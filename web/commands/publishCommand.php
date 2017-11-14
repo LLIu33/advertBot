@@ -6,8 +6,7 @@ use Longman\TelegramBot\Entities\Keyboard;
 use Longman\TelegramBot\Entities\KeyboardButton;
 use Longman\TelegramBot\Entities\PhotoSize;
 use Longman\TelegramBot\Request;
-
-require('../db.php');
+use Longman\TelegramBot\DB;
 
 class PublishCommand extends UserCommand
 {
@@ -86,11 +85,16 @@ class PublishCommand extends UserCommand
                 $this->conversation->stop();
                 $result = Request::sendPhoto($data);
 
-                $db = new Db();
-                $description = $db->quote($notes['description']);
-                $db->query(
-                    "INSERT INTO `posts` (`chat_id`,`user_id`,`description`,`photo_id`) 
-                     VALUES (" . $chat_id . "," . $user_id . "," . $description . "," . $data['photo'] . ")");
+                $pdo = DB::getPdo();
+                $sql = $pdo->prepare("INSERT INTO `posts` (`chat_id`,`user_id`,`description`,`photo_id`) 
+                     VALUES(:chat_id, :user_id, :description, :photo_id)"));
+                
+                $sql->execute(array(
+                    "chat_id" => $chat_id,
+                    "user_id" => $user_id,
+                    "description" => $notes['description'],
+                    "photo_id" => $data['photo']
+                ));
                 break;
         }
         return $result;
