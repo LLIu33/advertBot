@@ -28,7 +28,7 @@ class SearchCommand extends UserCommand
 
         $data = [
             'chat_id' => $chat_id,
-            'text'    => $result,
+            'text'    => implode(PHP_EOL, $result)
         ];
         return Request::sendMessage($data);
     }
