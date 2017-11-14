@@ -16,9 +16,7 @@ class startCommand extends SystemCommand {
         $chat_id = $message->getChat()->getId();
         $text    = 'Hi there!' . PHP_EOL . 'Type /help to see all commands!';
         $keyboard = new Keyboard(
-            ['text' => 'A'],
-            'B',
-            ['C', 'D']
+            ['/publish', '/search']
         );
         $data = [
             'chat_id' => $chat_id,
