@@ -1,7 +1,6 @@
 <?php
 
 require('../vendor/autoload.php');
-require('./db.php');
 
 if(getenv('APP_ENV') === 'development') {
   $dotenv = new Dotenv\Dotenv(__DIR__);

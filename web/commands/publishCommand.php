@@ -1,4 +1,6 @@
 <?php
+require('../db.php');
+
 namespace Longman\TelegramBot\Commands\UserCommands;
 use Longman\TelegramBot\Commands\UserCommand;
 use Longman\TelegramBot\Conversation;
