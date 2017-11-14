@@ -34,11 +34,19 @@ class SearchCommand extends UserCommand
         ];
         Request::sendMessage($data);
 
+        if($sql->rowCount() == 0) {
+            $emptyData = [
+                'chat_id' => $chat_id,
+                'text'    =>"Sorry, no results were found",
+            ];
+            Request::sendMessage($emptyData);
+        }
+
         foreach( $result as $row ) {
             $resultData = [
                 'chat_id' => $chat_id,
                 'photo' => $row['photo_id'],
-                'text'    => $row['description']
+                'caption'    => $row['description']
             ];
             Request::sendPhoto($resultData);
         }
