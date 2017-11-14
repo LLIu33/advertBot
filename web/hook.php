@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . "/vendor/autoload.php";
+require('../vendor/autoload.php');
 
 if(getenv('APP_ENV') === 'development') {
   $dotenv = new Dotenv\Dotenv(__DIR__);
