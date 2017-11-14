@@ -7,7 +7,7 @@ use Longman\TelegramBot\Entities\KeyboardButton;
 use Longman\TelegramBot\Entities\PhotoSize;
 use Longman\TelegramBot\Request;
 
-class HelpCommand extends UserCommand
+class PublishCommand extends UserCommand
 {
 
     protected $name = 'publish';
